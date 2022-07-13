@@ -168,6 +168,7 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
 #endif
   }
 #endif
+
 #if GST_GL_HAVE_WINDOW_WAYLAND && defined (HAVE_QT_WAYLAND)
   if (GST_IS_GL_DISPLAY_WAYLAND (display)) {
     platform = GST_GL_PLATFORM_EGL;
@@ -192,8 +193,9 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
 #elif GST_GL_HAVE_WINDOW_ANDROID && GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_ANDROID)
     platform = GST_GL_PLATFORM_EGL;
 #else
-    GST_ERROR ("Unknown platform");
-    return FALSE;
+    GST_INFO ("Unknown platform, Forcing Wayland!");
+    platform = GST_GL_PLATFORM_EGL;
+//    return FALSE;
 #endif
   }
 

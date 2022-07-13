@@ -34,7 +34,8 @@ SOURCES += gstplugin.cc \
            qtitem.cc \
            qtwindow.cc
 
-target.files = /usr/lib/gstreamer1.0/libgstqmlgl.so*
-target.path += /usr/lib/gstreamer1.0
-INSTALLS += target
+# No hacen falta para Yocto, se instala en la recipe
+# target.files = /usr/lib/gstreamer1.0/libgstqmlgl.so*
+# target.path += /usr/lib/gstreamer1.0
+# INSTALLS += target
 
