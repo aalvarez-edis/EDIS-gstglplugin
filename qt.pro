@@ -34,7 +34,7 @@ SOURCES += gstplugin.cc \
            qtitem.cc \
            qtwindow.cc
 
-target.files = *.so
+target.files = libgstqmlgl.so*
 target.path += /usr/lib/gstreamer1.0
-INSTALLS += dlltarget
+INSTALLS += target
 
