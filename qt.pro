@@ -36,5 +36,5 @@ SOURCES += gstplugin.cc \
 
 target.files = *.so
 target.path += /usr/lib/gstreamer1.0
-INSTALLS += target
+INSTALLS += dlltarget
 
