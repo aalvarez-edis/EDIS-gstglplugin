@@ -7,7 +7,7 @@ TARGET = gstqmlgl
 INCLUDEPATH += .
 QT_CONFIG -= no-pkg-config
 
-QT += qml quick
+QT += qml quick gui-private
 CONFIG += link_pkgconfig debug
 PKGCONFIG = gstreamer-1.0 gstreamer-base-1.0 gstreamer-gl-1.0
 
