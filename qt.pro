@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = lib
-TARGET = qt
+TARGET = gstqmlgl
 INCLUDEPATH += .
 QT_CONFIG -= no-pkg-config
 
@@ -18,7 +18,7 @@ PKGCONFIG = gstreamer-1.0 gstreamer-base-1.0 gstreamer-gl-1.0
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-# Input
+# Inputlibgstqmlgl
 HEADERS += gstqsgtexture.h \
            gstqtgl.h \
            gstqtglutility.h \
@@ -33,3 +33,8 @@ SOURCES += gstplugin.cc \
            gstqtsrc.cc \
            qtitem.cc \
            qtwindow.cc
+
+target.files = *.so
+target.path += /usr/lib/gstreamer1.0
+INSTALLS += target
+
