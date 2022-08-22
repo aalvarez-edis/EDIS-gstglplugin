@@ -36,7 +36,7 @@ SOURCES += gstplugin.cc \
 
 DEFINES += "GST_GL_HAVE_WINDOW_X11=1"
 DEFINES += "HAVE_QT_X11=1"
-# DEFINES += "GST_GL_HAVE_PLATFORM_GLX=1"
+DEFINES += "GST_GL_HAVE_PLATFORM_GLX=1"
 
 # No hacen falta para Yocto, se instala en la recipe
 # target.files = /usr/lib/gstreamer1.0/libgstqmlgl.so*
