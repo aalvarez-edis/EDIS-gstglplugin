@@ -214,6 +214,9 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
 
   gl_api = gst_gl_context_get_current_gl_api (platform, NULL, NULL);
   gl_handle = gst_gl_context_get_current_gl_context (platform);
+
+  GST_DEBUG("\n*** gstglutility: Forced platform api/handle %p / %p", gl_api, gl_handle);
+
   if (gl_handle)
     *wrap_glcontext =
         gst_gl_context_new_wrapped (display, gl_handle,
@@ -236,42 +239,6 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
     return FALSE;
   } else {
     gst_gl_display_filter_gl_api (display, gst_gl_context_get_gl_api (*wrap_glcontext));
-#if GST_GL_HAVE_WINDOW_WIN32 && GST_GL_HAVE_PLATFORM_WGL && defined (HAVE_QT_WIN32)  
-    g_return_val_if_fail (context != NULL, FALSE);
-
-    G_STMT_START {
-      GstGLWindow *window;
-      HDC device;
-
-      /* If there's no wglCreateContextAttribsARB() support, then we would fallback to
-       * wglShareLists() which will fail with ERROR_BUSY (0xaa) if either of the GL
-       * contexts are current in any other thread.
-       *
-       * The workaround here is to temporarily disable Qt's GL context while we
-       * set up our own.
-       *
-       * Sometimes wglCreateContextAttribsARB()
-       * exists, but isn't functional (some Intel drivers), so it's easiest to do this
-       * unconditionally.
-       */
-      *context = gst_gl_context_new (display);
-      window = gst_gl_context_get_window (*context);
-      device = (HDC) gst_gl_window_get_display (window);
-
-      wglMakeCurrent (device, 0);
-      gst_object_unref (window);
-      if (!gst_gl_context_create (*context, *wrap_glcontext, &error)) {
-        GST_ERROR ("failed to create shared GL context: %s", error->message);
-        g_object_unref (*context);
-        *context = NULL;
-        g_object_unref (*wrap_glcontext);
-        *wrap_glcontext = NULL;
-        wglMakeCurrent (device, (HGLRC) gl_handle);
-        return FALSE;
-      }
-      wglMakeCurrent (device, (HGLRC) gl_handle);
-    } G_STMT_END;
-#endif
     gst_gl_context_activate (*wrap_glcontext, FALSE);
   }
 
