@@ -209,6 +209,9 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
 #endif
   }
 
+  platform = GST_GL_PLATFORM_GLX;
+  GST_DEBUG("\n*** gstglutility: Forced platform %p", platform);
+
   gl_api = gst_gl_context_get_current_gl_api (platform, NULL, NULL);
   gl_handle = gst_gl_context_get_current_gl_context (platform);
   if (gl_handle)
