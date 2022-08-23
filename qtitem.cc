@@ -126,7 +126,7 @@ QtGLVideoItem::QtGLVideoItem()
 
   this->proxy = QSharedPointer<QtGLVideoItemInterface>(new QtGLVideoItemInterface(this));
 
-  GST_DEBUG ("%p init Qt Video Item", this);
+  GST_DEBUG ("%p init Qt Video Item displ: %p", this, this->priv->display);
 }
 
 QtGLVideoItem::~QtGLVideoItem()
@@ -286,12 +286,12 @@ QtGLVideoItem::onSceneGraphInitialized ()
 
   this->priv->qt_context = this->window()->openglContext ();
   if (this->priv->qt_context == NULL) {
-    g_print("\n*** qt_context is null %p", this->priv->qt_context);
+    GST_DEBUG("\n*** qt_context is null %p", this->priv->qt_context);
     g_assert_not_reached ();
     return;
   }
 
-  g_print("\n*** Try to wrap %p", this->priv->display
+  GST_DEBUG("\n*** Try to wrap %p", this->priv->display
           , this->priv->other_context, &this->priv->context);
   m_openGlContextInitialized = gst_qt_get_gl_wrapcontext (this->priv->display,
       &this->priv->other_context, &this->priv->context);
