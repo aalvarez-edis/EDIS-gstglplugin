@@ -60,6 +60,7 @@ gst_qt_get_gl_display ()
   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
   static volatile gsize _debug;
 
+  g_print ("*** gst_qt_get_gl_display");
   g_assert (app != NULL);
 
   if (g_once_init_enter (&_debug)) {
@@ -70,11 +71,14 @@ gst_qt_get_gl_display ()
   GST_INFO ("QGuiApplication::instance()->platformName() %s", app->platformName().toUtf8().data());
 
 #if GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)
+  g_print ("*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)");
   if (QString::fromUtf8 ("xcb") == app->platformName())
+    g_print ("*** xcb");
     display = (GstGLDisplay *)
         gst_gl_display_x11_new_with_display (QX11Info::display ());
 #endif
 #if GST_GL_HAVE_WINDOW_WAYLAND && GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_WAYLAND)
+  g_print ("*** GST_GL_HAVE_WINDOW_WAYLAND && GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_WAYLAND)");
   if (QString::fromUtf8 ("wayland") == app->platformName()
         || QString::fromUtf8 ("wayland-egl") == app->platformName()){
     struct wl_display * wayland_display;
@@ -160,10 +164,13 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   g_return_val_if_fail (display != NULL && wrap_glcontext != NULL, FALSE);
 
 #if GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)
+  g_print ("*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11); ");
   if (GST_IS_GL_DISPLAY_X11 (display)) {
 #if GST_GL_HAVE_PLATFORM_GLX
     platform = GST_GL_PLATFORM_GLX;
+    g_print ("*** platform = GST_GL_PLATFORM_GLX; ");
 #elif GST_GL_HAVE_PLATFORM_EGL
+    g_print ("*** GST_GL_HAVE_PLATFORM_EGL ");
     platform = GST_GL_PLATFORM_EGL;
 #endif
   }
@@ -175,6 +182,7 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   }
 #endif
 #if GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)
+  g_print ("*** GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS) ");
 #if GST_GL_HAVE_WINDOW_VIV_FB
   if (GST_IS_GL_DISPLAY_VIV_FB (display)) {
 #else
@@ -194,6 +202,7 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
     platform = GST_GL_PLATFORM_EGL;
 #else
     GST_INFO ("Unknown platform, Forcing Wayland!");
+    g_print ("*** Unknown platform, Forcing Wayland ");
     platform = GST_GL_PLATFORM_EGL;
 //    return FALSE;
 #endif

@@ -305,7 +305,7 @@ gst_qt_sink_change_state (GstElement * element, GstStateChange transition)
 
       if (!qt_sink->widget->initWinSys()) {
         GST_ELEMENT_ERROR (element, RESOURCE, NOT_FOUND,
-            ("%s", "Could not initialize window system"),
+            ("%s", "1. Could not initialize window system"),
             (NULL));
         return GST_STATE_CHANGE_FAILURE;
       }
@@ -316,7 +316,7 @@ gst_qt_sink_change_state (GstElement * element, GstStateChange transition)
 
       if (!qt_sink->display || !qt_sink->context || !qt_sink->qt_context) {
         GST_ELEMENT_ERROR (element, RESOURCE, NOT_FOUND,
-            ("%s", "Could not retrieve window system OpenGL configuration"),
+            ("%s", "1. Could not retrieve window system OpenGL configuration"),
             (NULL));
         return GST_STATE_CHANGE_FAILURE;
       }

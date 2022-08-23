@@ -482,7 +482,7 @@ gst_qt_src_change_state (GstElement * element, GstStateChange transition)
 
       if (!qt_window_is_scenegraph_initialized (qt_src->window)) {
         GST_ELEMENT_ERROR (element, RESOURCE, NOT_FOUND,
-            ("%s", "Could not initialize window system"), (NULL));
+            ("%s", "2. Could not initialize window system"), (NULL));
         return GST_STATE_CHANGE_FAILURE;
       }
 
@@ -532,7 +532,7 @@ gst_qt_src_start (GstBaseSrc * basesrc)
 
   if (!qt_src->display || !qt_src->qt_context) {
     GST_ERROR_OBJECT (qt_src,
-        "Could not retrieve window system OpenGL configuration");
+        "2. Could not retrieve window system OpenGL configuration");
     return FALSE;
   }
 
