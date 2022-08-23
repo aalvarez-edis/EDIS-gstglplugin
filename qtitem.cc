@@ -278,18 +278,21 @@ QtGLVideoItemInterface::setBuffer (GstBuffer * buffer)
 void
 QtGLVideoItem::onSceneGraphInitialized ()
 {
-  GST_DEBUG ("scene graph initialization with Qt GL context %p",
-      this->window()->openglContext ());
+  GST_DEBUG ("scene graph initialization with Qt GL context %p %p",
+      this->window()->openglContext (), this->priv->qt_context);
 
   if (this->priv->qt_context == this->window()->openglContext ())
     return;
 
   this->priv->qt_context = this->window()->openglContext ();
   if (this->priv->qt_context == NULL) {
+    g_print("\n*** qt_context is null %p", this->priv->qt_context);
     g_assert_not_reached ();
     return;
   }
 
+  g_print("\n*** Try to wrap %p", this->priv->display
+          , this->priv->other_context, &this->priv->context);
   m_openGlContextInitialized = gst_qt_get_gl_wrapcontext (this->priv->display,
       &this->priv->other_context, &this->priv->context);
 

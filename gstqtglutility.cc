@@ -60,7 +60,7 @@ gst_qt_get_gl_display ()
   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
   static volatile gsize _debug;
 
-  g_print ("*** gst_qt_get_gl_display");
+  g_print ("\n*** gst_qt_get_gl_display");
   g_assert (app != NULL);
 
   if (g_once_init_enter (&_debug)) {
@@ -71,9 +71,9 @@ gst_qt_get_gl_display ()
   GST_INFO ("QGuiApplication::instance()->platformName() %s", app->platformName().toUtf8().data());
 
 #if GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)
-  g_print ("*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)");
+  g_print ("\n*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11), %s \n", app->platformName().data());
   if (QString::fromUtf8 ("xcb") == app->platformName())
-    g_print ("*** xcb");
+    g_print ("\n*** xcb");
     display = (GstGLDisplay *)
         gst_gl_display_x11_new_with_display (QX11Info::display ());
 #endif
@@ -156,6 +156,7 @@ gboolean
 gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
     GstGLContext **wrap_glcontext, GstGLContext **context)
 {
+  g_print ("\n*** entering gst_qt_get_gl_wrapcontext, L159");
   GstGLPlatform platform = (GstGLPlatform) 0;
   GstGLAPI gl_api;
   guintptr gl_handle;
@@ -164,13 +165,13 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   g_return_val_if_fail (display != NULL && wrap_glcontext != NULL, FALSE);
 
 #if GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11)
-  g_print ("*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11); ");
+  g_print ("\n*** GST_GL_HAVE_WINDOW_X11 && defined (HAVE_QT_X11); ");
   if (GST_IS_GL_DISPLAY_X11 (display)) {
 #if GST_GL_HAVE_PLATFORM_GLX
     platform = GST_GL_PLATFORM_GLX;
-    g_print ("*** platform = GST_GL_PLATFORM_GLX; ");
+    g_print ("\n*** platform = GST_GL_PLATFORM_GLX; ");
 #elif GST_GL_HAVE_PLATFORM_EGL
-    g_print ("*** GST_GL_HAVE_PLATFORM_EGL ");
+    g_print ("\n*** platform = GST_GL_HAVE_PLATFORM_EGL ");
     platform = GST_GL_PLATFORM_EGL;
 #endif
   }
