@@ -92,9 +92,9 @@ gst_qt_get_gl_display ()
     display = (GstGLDisplay *) gst_gl_display_egl_new_with_egl_display (egl_display);
   }
 #elif GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)
-  g_print ("*** GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)");
+  GST_INFO ("\n*** GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)");
   if (QString::fromUtf8("eglfs") == app->platformName()) {
-      g_print ("*** .. == eglfs");
+      GST_INFO ("\n*** .. == eglfs");
 #if GST_GL_HAVE_WINDOW_VIV_FB
     /* FIXME: Could get the display directly from Qt like this
       QPlatformNativeInterface *native =
@@ -127,7 +127,7 @@ gst_qt_get_gl_display ()
 #else
     EGLDisplay egl_display = (EGLDisplay) gst_gl_display_egl_get_from_native (GST_GL_DISPLAY_TYPE_ANY, 0);
     display = (GstGLDisplay *) gst_gl_display_egl_new_with_egl_display (egl_display);
-    g_print ("*** display: ", display);
+    GST_INFO ("\n *** display: %p ", display);
 #endif
   }
 #endif
@@ -196,7 +196,7 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
 #elif GST_GL_HAVE_WINDOW_ANDROID && GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_ANDROID)
     platform = GST_GL_PLATFORM_EGL;
 #else
-    GST_INFO ("Unknown platform, Forcing Wayland!");
+    GST_INFO ("\n Unknown platform, Forcing Wayland!");
     platform = GST_GL_PLATFORM_EGL;
 //    return FALSE;
 #endif
@@ -205,26 +205,30 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   gl_api = gst_gl_context_get_current_gl_api (platform, NULL, NULL);  
   gl_handle = gst_gl_context_get_current_gl_context (platform);
 
-  GST_INFO ("*** gst_gl_context_get_current_gl_api:     %i", gl_api);
-  GST_INFO ("*** gst_gl_context_get_current_gl_context: %i", gl_handle);
-  GST_INFO ("*** platform: %i", platform);
-  GST_INFO ("*** display : %i", display);
+  GST_INFO ("\n *** gst_gl_context_get_current_gl_api:     %i", gl_api);
+  GST_INFO ("\n *** gst_gl_context_get_current_gl_context: %p", gl_handle);
+  GST_INFO ("\n *** platform: %i", platform);
+  GST_INFO ("\n *** display : %p", display);
 
   if (gl_handle)
     *wrap_glcontext =
         gst_gl_context_new_wrapped (display, gl_handle,
         platform, gl_api);
 
+  GST_INFO ("\n *** wrap ");
   if (!*wrap_glcontext) {
     GST_ERROR ("cannot wrap qt OpenGL context");
     return FALSE;
   }
 
+  GST_INFO ("\n *** end wrap ");
   (void) platform;
   (void) gl_api;
   (void) gl_handle;
 
+  GST_INFO ("\n *** activate ");
   gst_gl_context_activate(*wrap_glcontext, TRUE);
+  GST_INFO ("\n *** end activate ");
   if (!gst_gl_context_fill_info (*wrap_glcontext, &error)) {
     GST_ERROR ("failed to retrieve qt context info: %s", error->message);
     g_object_unref (*wrap_glcontext);
