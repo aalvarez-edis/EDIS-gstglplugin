@@ -205,17 +205,17 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   gl_api = gst_gl_context_get_current_gl_api (platform, NULL, NULL);  
   gl_handle = gst_gl_context_get_current_gl_context (platform);
 
-  GST_INFO ("\n *** gst_gl_context_get_current_gl_api:     %i", gl_api);
+  GST_INFO ("\n *** gst_gl_context_get_current_gl_api:     %, GLES2=%i", gl_api, GST_GL_API_GLES2);
   GST_INFO ("\n *** gst_gl_context_get_current_gl_context: %p", gl_handle);
   GST_INFO ("\n *** platform: %i", platform);
-  GST_INFO ("\n *** display : %p", display);
+  GST_INFO ("\n *** display : %p  is GL_EGL: %i", display, GST_IS_GL_DISPLAY_EGL (display));
 
   if (gl_handle)
     *wrap_glcontext =
         gst_gl_context_new_wrapped (display, gl_handle,
         platform, gl_api);
 
-  GST_INFO ("\n *** wrap ");
+  GST_INFO ("\n *** wrapped: %p", wrap_glcontext);
   if (!*wrap_glcontext) {
     GST_ERROR ("cannot wrap qt OpenGL context");
     return FALSE;
@@ -235,8 +235,10 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
     *wrap_glcontext = NULL;
     return FALSE;
   } else {
+    GST_INFO ("\n *** final filter_gl_api");
     gst_gl_display_filter_gl_api (display, gst_gl_context_get_gl_api (*wrap_glcontext));
 #if GST_GL_HAVE_WINDOW_WIN32 && GST_GL_HAVE_PLATFORM_WGL && defined (HAVE_QT_WIN32)  
+    GST_INFO ("\n *** SHOULD NOOOT BE HERE ");
     g_return_val_if_fail (context != NULL, FALSE);
 
     G_STMT_START {
@@ -272,8 +274,11 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
       wglMakeCurrent (device, (HGLRC) gl_handle);
     } G_STMT_END;
 #endif
+    GST_INFO ("\n *** final activate: %p", wrap_glcontext);
     gst_gl_context_activate (*wrap_glcontext, FALSE);
+    GST_INFO ("\n *** final end-activate");
   }
 
+  GST_INFO ("\n *** return TRUE");
   return TRUE;
 }
