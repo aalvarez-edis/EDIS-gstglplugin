@@ -92,9 +92,9 @@ gst_qt_get_gl_display ()
     display = (GstGLDisplay *) gst_gl_display_egl_new_with_egl_display (egl_display);
   }
 #elif GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)
-  GST_WARN ("*** GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)");
+  g_print ("*** GST_GL_HAVE_PLATFORM_EGL && defined (HAVE_QT_EGLFS)");
   if (QString::fromUtf8("eglfs") == app->platformName()) {
-      GST_WARN ("*** .. == eglfs");
+      g_print ("*** .. == eglfs");
 #if GST_GL_HAVE_WINDOW_VIV_FB
     /* FIXME: Could get the display directly from Qt like this
       QPlatformNativeInterface *native =
@@ -127,7 +127,7 @@ gst_qt_get_gl_display ()
 #else
     EGLDisplay egl_display = (EGLDisplay) gst_gl_display_egl_get_from_native (GST_GL_DISPLAY_TYPE_ANY, 0);
     display = (GstGLDisplay *) gst_gl_display_egl_new_with_egl_display (egl_display);
-    GST_WARN ("*** display: ", display);
+    g_print ("*** display: ", display);
 #endif
   }
 #endif
