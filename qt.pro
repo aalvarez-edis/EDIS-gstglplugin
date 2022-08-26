@@ -34,8 +34,9 @@ SOURCES += gstplugin.cc \
            qtitem.cc \
            qtwindow.cc
 
-DEFINES += "GST_GL_HAVE_WINDOW_WAYLAND=1"
-DEFINES += "HAVE_QT_WAYLAND=1"
+#DEFINES += "GST_GL_HAVE_WINDOW_WAYLAND=1"
+#DEFINES += "HAVE_QT_WAYLAND=1"
+DEFINES += "HAVE_QT_EGLFS=1"
 DEFINES += "GST_GL_HAVE_PLATFORM_EGL=1"
 
 # No hacen falta para Yocto, se instala en la recipe
