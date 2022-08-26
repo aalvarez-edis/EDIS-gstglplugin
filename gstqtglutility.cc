@@ -205,10 +205,10 @@ gst_qt_get_gl_wrapcontext (GstGLDisplay * display,
   gl_api = gst_gl_context_get_current_gl_api (platform, NULL, NULL);  
   gl_handle = gst_gl_context_get_current_gl_context (platform);
 
-  GST_WARN ("*** gst_gl_context_get_current_gl_api:     %i", gl_api);
-  GST_WARN ("*** gst_gl_context_get_current_gl_context: %i", gl_handle);
-  GST_WARN ("*** platform: %i", platform);
-  GST_WARN ("*** display : %i", display);
+  GST_INFO ("*** gst_gl_context_get_current_gl_api:     %i", gl_api);
+  GST_INFO ("*** gst_gl_context_get_current_gl_context: %i", gl_handle);
+  GST_INFO ("*** platform: %i", platform);
+  GST_INFO ("*** display : %i", display);
 
   if (gl_handle)
     *wrap_glcontext =
